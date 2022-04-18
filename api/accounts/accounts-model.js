@@ -11,13 +11,13 @@ const getById = id => {
   return db('accounts').where('id', id).first()
 }
 
-async function create(account) {
+const create = async account =>  {
   // DO YOUR MAGIC
   let [id] = await db('accounts').insert(account)
   return getById(id);
 }
 
-async function updateById(id, account) {
+const updateById = async (id, account) => {
   // DO YOUR MAGIC
   await db('accounts')
     .where('id', id)
@@ -25,7 +25,7 @@ async function updateById(id, account) {
   return getById(id);
 }
 
-async function deleteById (id) {
+const deleteById = async (id) => {
   // DO YOUR MAGIC
   let result = await getById(id)
   await db('accounts')

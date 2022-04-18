@@ -34,8 +34,11 @@ router.post(
   async (req, res, next) => {
     // DO YOUR MAGIC
     try {
-      const data = await Accounts.create(req.body);
-      res.json(data);
+      const data = await Accounts.create({
+        name: req.body.name.trim(),
+        budget: req.body.budget,
+      });
+      res.status(201).json(data);
     } catch (err) {
       next(err);
     }
@@ -45,15 +48,14 @@ router.post(
 router.put(
   "/:id",
   checkAccountId,
-  checkAccountNameUnique,
-  checkAccountPayload, 
+  checkAccountPayload,
   async (req, res, next) => {
     // DO YOUR MAGIC
     try {
-      const data = await Accounts.update(req.params.id, req.body)
-      res.json(data)
+      const data = await Accounts.updateById(req.params.id, req.body);
+      res.json(data);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 );
@@ -61,10 +63,10 @@ router.put(
 router.delete("/:id", checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Accounts.deleteById(req.params.id)
-    res.json(data)
+    const data = await Accounts.deleteById(req.params.id);
+    res.json(data);
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
@@ -74,7 +76,7 @@ router.use((err, req, res, next) => {
     message: err.message,
     stack: err.stack,
   });
-  next()
+  next();
 });
 
 module.exports = router;
